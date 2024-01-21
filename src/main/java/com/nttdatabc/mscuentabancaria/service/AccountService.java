@@ -1,5 +1,6 @@
 package com.nttdatabc.mscuentabancaria.service;
 
+import com.nttdatabc.mscuentabancaria.model.TypeAccountBank;
 import com.nttdatabc.mscuentabancaria.repository.AccountRepository;
 import com.nttdatabc.mscuentabancaria.utils.Utilitarios;
 import com.nttdatabc.mscuentabancaria.utils.exceptions.errors.ErrorResponseException;
@@ -8,8 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Predicate;
 
 import static com.nttdatabc.mscuentabancaria.utils.Constantes.*;
 
@@ -25,12 +28,17 @@ public class AccountService {
     public void createAccountService(Account account) throws ErrorResponseException {
         validateAccountsNoNulls(account);
         validateAccountEmpty(account);
+        verifyTypeAccount(account);
+        verifyValues(account);
         account.setId(Utilitarios.generateUUID());
+        account.setMaintenanceFee(BigDecimal.valueOf(MAINTENANCE_FEE));
+        account.setLimitMaxMovements(LIMIT_MAX_MOVEMENTS);
         accountRepository.save(account);
     }
     public void updateAccountServide(Account account) throws ErrorResponseException {
         validateAccountsNoNulls(account);
         validateAccountEmpty(account);
+        verifyTypeAccount(account);
         Optional<Account>getAccountById = accountRepository.findById(account.getId());
         if(getAccountById.isEmpty()){
             throw new ErrorResponseException(EX_NOT_FOUND_RECURSO,HttpStatus.NOT_FOUND.value(), HttpStatus.NOT_FOUND);
@@ -66,8 +74,6 @@ public class AccountService {
                 .filter(c -> c.getCurrentBalance() != null)
                 .filter(c -> c.getTypeAccount() != null)
                 .filter(c -> c.getDateMovement() != null)
-                .filter(c -> c.getMaintenanceFee() != null)
-                .filter(c -> c.getLimitMaxMovements() != null)
                 .orElseThrow(() -> new ErrorResponseException(EX_ERROR_REQUEST, HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST));
     }
     public  void validateAccountEmpty(Account account) throws ErrorResponseException {
@@ -76,11 +82,24 @@ public class AccountService {
                 .filter(c -> !c.getCurrentBalance().toString().isBlank())
                 .filter(c -> !c.getTypeAccount().isBlank())
                 .filter(c -> !c.getDateMovement().isBlank())
-                .filter(c -> !c.getMaintenanceFee().toString().isBlank())
-                .filter(c -> !c.getLimitMaxMovements().toString().isBlank())
                 .orElseThrow(() -> new ErrorResponseException(EX_VALUE_EMPTY,HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST));
     }
+    public  void verifyTypeAccount(Account account)throws ErrorResponseException{
+        Predicate<Account> existTypeAccountBank = accountValidate -> accountValidate
+                .getTypeAccount()
+                .equalsIgnoreCase(TypeAccountBank.AHORRO.toString()) ||
+                accountValidate.getTypeAccount().equalsIgnoreCase(TypeAccountBank.CORRIENTE.toString())
+                || accountValidate.getTypeAccount().equalsIgnoreCase(TypeAccountBank.PLAZO_FIJO.toString());
+        if(existTypeAccountBank.negate().test(account)){
+            throw new ErrorResponseException(EX_ERROR_TYPE_ACCOUNT,HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST);
+        }
+    }
 
+    public void verifyValues(Account account)throws ErrorResponseException{
+        if(account.getCurrentBalance().doubleValue() <= VALUE_MIN_ACCOUNT_BANK){
+            throw new ErrorResponseException(EX_ERROR_VALUE_MIN,HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST);
+        }
+    }
 
 
 }
