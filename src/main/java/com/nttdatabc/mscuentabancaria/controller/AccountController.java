@@ -1,9 +1,9 @@
 package com.nttdatabc.mscuentabancaria.controller;
 
 import com.nttdatabc.mscuentabancaria.service.AccountService;
+import com.nttdatabc.mscuentabancaria.api.AccountsApi;
+import com.nttdatabc.mscuentabancaria.model.Account;
 import com.nttdatabc.mscuentabancaria.utils.exceptions.errors.ErrorResponseException;
-import org.nttdatabc.mscuentabancaria.api.AccountsApi;
-import org.nttdatabc.mscuentabancaria.model.Account;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 import static com.nttdatabc.mscuentabancaria.utils.Constantes.PREFIX_PATH;
+
 
 @RestController
 @RequestMapping(PREFIX_PATH)
@@ -65,5 +66,16 @@ public class AccountController implements AccountsApi {
             throw new RuntimeException(e);
         }
         return new ResponseEntity<>(accountById, HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<List<Account>> getAccountsByCustomerId(String customerId) {
+        List<Account>listAccountByCustomer = null;
+        try {
+            listAccountByCustomer = accountService.getAccountsByCustomerIdService(customerId);
+        } catch (ErrorResponseException e) {
+            throw new RuntimeException(e);
+        }
+        return new ResponseEntity<>(listAccountByCustomer, HttpStatus.OK);
     }
 }

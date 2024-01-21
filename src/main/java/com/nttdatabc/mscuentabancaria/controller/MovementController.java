@@ -2,8 +2,8 @@ package com.nttdatabc.mscuentabancaria.controller;
 
 import com.nttdatabc.mscuentabancaria.service.MovementService;
 import com.nttdatabc.mscuentabancaria.utils.exceptions.errors.ErrorResponseException;
-import org.nttdatabc.mscuentabancaria.api.MovementApi;
-import org.nttdatabc.mscuentabancaria.model.Movement;
+import com.nttdatabc.mscuentabancaria.api.MovementApi;
+import com.nttdatabc.mscuentabancaria.model.Movement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

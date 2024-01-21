@@ -1,7 +1,10 @@
 package com.nttdatabc.mscuentabancaria.utils.exceptions.errors;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.springframework.http.HttpStatus;
+
 
 @Data
 public class ErrorResponseException extends Exception {

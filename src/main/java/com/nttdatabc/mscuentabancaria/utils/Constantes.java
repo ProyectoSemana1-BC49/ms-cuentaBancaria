@@ -8,12 +8,19 @@ public class Constantes {
     public static final String EX_ERROR_TYPE_ACCOUNT = "Recuerda que solo existe tipo AHORRO | CORRIENTE | PLAZO_FIJO";
     public static final String EX_VALUE_EMPTY = "Uno de los parámetros viene vacío";
     public static final String EX_NOT_FOUND_RECURSO = "No existe el recurso";
-    public static final String EX_USER_REGISTRED = "Este documento ya ha sido registrado.";
-    public static final String EX_ERROR_FORMAT_NUMBER_ID = "El valor no es numérico";
     public static final String EX_ERROR_VALUE_MIN= "El valor es el mínimo para abrir un producto bancario";
-    public static final String EX_ERROR_PERSONA_AUTHORIZED_SIGNER = "El Tipo persona no puede tener Singatarios";
+    public static final String EX_ERROR_VALUE_MIN_MOVEMENT= "El valor es el mínimo para realizar un movimiento";
+    public static final String EX_ERROR_MOVEMENT_BALANCE_INSUFFICIENT= "Saldo insuficiente";
     public static Double VALUE_MIN_ACCOUNT_BANK = 0.0;
     public static final Double MAINTENANCE_FEE = 12.5;
+    public static final Double MAINTENANCE_FEE_FREE = 0.0;
     public static final Integer LIMIT_MAX_MOVEMENTS = 5;
+    public static final Integer LIMIT_MAX_FREE = 0;
+    public static final String DAY_MOVEMENT_SELECTED = "25";
     public static final String EX_ERROR_TYPE_MOVEMENT = "Recuerda que solo existe el tipo RETIRO | DEPOSITO";
+    public static final String EX_ERROR_CONFLICTO_CUSTOMER_PERSONA = "Este usuario ya tiene registrado alguna cuenta bancaria.";
+    public static final String EX_ERROR_CONFLICTO_CUSTOMER_PERSONA_NOT_HOLDERS = "Las cuentas personales, no pueden tener Holders";
+    public static final String EX_ERROR_CONFLICTO_CUSTOMER_EMPRESA_NOT_TYPE_AUTHORIZED = "Las cuentas de empresa, no pueden ser de ahorro o de plazo fijo";
+    public static final String EX_ERROR_CONFLICTO_CUSTOMER_EMPRESA_NEED_HOLDERS = "Las cuentas de empresa, necesita al menos 1 holder";
+    public static final Integer MAX_SIZE_ACCOUNT_CUSTOMER_PERSONA = 1;
 }
