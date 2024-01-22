@@ -16,11 +16,14 @@ public class Constantes {
     public static final Double MAINTENANCE_FEE_FREE = 0.0;
     public static final Integer LIMIT_MAX_MOVEMENTS = 5;
     public static final Integer LIMIT_MAX_FREE = 0;
-    public static final String DAY_MOVEMENT_SELECTED = "25";
+    public static final String DAY_MOVEMENT_SELECTED = "22";
     public static final String EX_ERROR_TYPE_MOVEMENT = "Recuerda que solo existe el tipo RETIRO | DEPOSITO";
     public static final String EX_ERROR_CONFLICTO_CUSTOMER_PERSONA = "Este usuario ya tiene registrado alguna cuenta bancaria.";
     public static final String EX_ERROR_CONFLICTO_CUSTOMER_PERSONA_NOT_HOLDERS = "Las cuentas personales, no pueden tener Holders";
     public static final String EX_ERROR_CONFLICTO_CUSTOMER_EMPRESA_NOT_TYPE_AUTHORIZED = "Las cuentas de empresa, no pueden ser de ahorro o de plazo fijo";
     public static final String EX_ERROR_CONFLICTO_CUSTOMER_EMPRESA_NEED_HOLDERS = "Las cuentas de empresa, necesita al menos 1 holder";
     public static final Integer MAX_SIZE_ACCOUNT_CUSTOMER_PERSONA = 1;
+    public static final String EX_ERROR_LIMIT_MAX_MOVEMENTS = "LA CUENTA DE AHORRO TIENE UN MÁXIMO DE 5 MOVIMIENTOS MENSUALES, ESPERE AL OTRO MES PARA REALIZAR MOVIMIENTO";
+    public static final String EX_ERROR_HAS_MOVEMENT_DAY = "Ya realizó el movimiento, recuerde que solo es 1 por día específico.";
+    public static final String EX_ERROR_NOT_DAY_MOVEMENT = "Hoy no es el día especificado para hacer un movimiento en plazo fijo, recurde que son los días " + DAY_MOVEMENT_SELECTED + " de cada mes.";
 }
