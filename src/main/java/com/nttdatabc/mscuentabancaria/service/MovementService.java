@@ -36,27 +36,8 @@ public class MovementService {
         validateAccountRegister(movement.getAccountId());
 
         List<Movement>listMovementByAccount = getMovementsByAccountIdService(movement.getAccountId());
-
-
         Account accountFound = accountService.getAccountByIdService(movement.getAccountId());
-        if(accountFound.getTypeAccount().equalsIgnoreCase(TypeAccountBank.AHORRO.toString())){
-            List<Movement>listMovementByAccountByMonth = listMovementByMonth(listMovementByAccount);
-
-            if(listMovementByAccountByMonth.size() >= LIMIT_MAX_MOVEMENTS){
-                throw new ErrorResponseException(EX_ERROR_LIMIT_MAX_MOVEMENTS, HttpStatus.CONFLICT.value(), HttpStatus.CONFLICT);
-            }
-        }else if(accountFound.getTypeAccount().equalsIgnoreCase(TypeAccountBank.PLAZO_FIJO.toString())){
-            Boolean hasMovement = hasMovementInDay(listMovementByAccount);
-            // Ya hizo el movimiento el día programado
-            if(hasMovement){
-                throw new ErrorResponseException(EX_ERROR_HAS_MOVEMENT_DAY, HttpStatus.CONFLICT.value(), HttpStatus.CONFLICT);
-            }
-            //No es el dia programado
-            Boolean isDayMovement = isDayMovement();
-            if(!isDayMovement){
-                throw new ErrorResponseException(EX_ERROR_NOT_DAY_MOVEMENT, HttpStatus.CONFLICT.value(), HttpStatus.CONFLICT);
-            }
-        }
+        validateMovements(accountFound, listMovementByAccount);
 
         movement.setId(Utilitarios.generateUUID());
         movement.setFecha(LocalDateTime.now().toString());
@@ -74,10 +55,13 @@ public class MovementService {
         verifyValues(movement);
         validateAccountRegister(movement.getAccountId());
 
+        List<Movement>listMovementByAccount = getMovementsByAccountIdService(movement.getAccountId());
+        Account accountFound = accountService.getAccountByIdService(movement.getAccountId());
+        validateMovements(accountFound, listMovementByAccount);
+
         movement.setId(Utilitarios.generateUUID());
         movement.setFecha(LocalDateTime.now().toString());
         //Validar que el monto de retiro, no sea más que el saldo total
-        Account accountFound = accountService.getAccountByIdService(movement.getAccountId());
         if(accountFound.getCurrentBalance().doubleValue() < movement.getMount().doubleValue()){
             throw new ErrorResponseException(EX_ERROR_MOVEMENT_BALANCE_INSUFFICIENT, HttpStatus.CONFLICT.value(), HttpStatus.CONFLICT);
         }
@@ -148,5 +132,26 @@ public class MovementService {
         LocalDateTime dateTimeNow = LocalDateTime.now();
         int dayNow = dateTimeNow.getDayOfMonth();
         return dayNow == Integer.parseInt(DAY_MOVEMENT_SELECTED);
+    }
+
+    public void validateMovements(Account accountFound, List<Movement>listMovementByAccount) throws ErrorResponseException {
+        if(accountFound.getTypeAccount().equalsIgnoreCase(TypeAccountBank.AHORRO.toString())){
+            List<Movement>listMovementByAccountByMonth = listMovementByMonth(listMovementByAccount);
+
+            if(listMovementByAccountByMonth.size() >= LIMIT_MAX_MOVEMENTS){
+                throw new ErrorResponseException(EX_ERROR_LIMIT_MAX_MOVEMENTS, HttpStatus.CONFLICT.value(), HttpStatus.CONFLICT);
+            }
+        }else if(accountFound.getTypeAccount().equalsIgnoreCase(TypeAccountBank.PLAZO_FIJO.toString())){
+            Boolean hasMovement = hasMovementInDay(listMovementByAccount);
+            // Ya hizo el movimiento el día programado
+            if(hasMovement){
+                throw new ErrorResponseException(EX_ERROR_HAS_MOVEMENT_DAY, HttpStatus.CONFLICT.value(), HttpStatus.CONFLICT);
+            }
+            //No es el dia programado
+            Boolean isDayMovement = isDayMovement();
+            if(!isDayMovement){
+                throw new ErrorResponseException(EX_ERROR_NOT_DAY_MOVEMENT, HttpStatus.CONFLICT.value(), HttpStatus.CONFLICT);
+            }
+        }
     }
 }
