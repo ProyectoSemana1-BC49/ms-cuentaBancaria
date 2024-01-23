@@ -1,6 +1,6 @@
 package com.nttdatabc.mscuentabancaria.controller;
 
-import com.nttdatabc.mscuentabancaria.service.AccountService;
+import com.nttdatabc.mscuentabancaria.service.AccountServiceImpl;
 import com.nttdatabc.mscuentabancaria.api.AccountsApi;
 import com.nttdatabc.mscuentabancaria.model.Account;
 import com.nttdatabc.mscuentabancaria.utils.exceptions.errors.ErrorResponseException;
@@ -20,17 +20,17 @@ import static com.nttdatabc.mscuentabancaria.utils.Constantes.PREFIX_PATH;
 public class AccountController implements AccountsApi {
 
     @Autowired
-    private AccountService accountService;
+    private AccountServiceImpl accountServiceImpl;
 
     @Override
     public ResponseEntity<List<Account>> getAllAccounts() {
-        return new ResponseEntity<>(accountService.getAllAccountsService(), HttpStatus.OK);
+        return new ResponseEntity<>(accountServiceImpl.getAllAccountsService(), HttpStatus.OK);
     }
 
     @Override
     public ResponseEntity<Void> createAccount(Account account) {
         try {
-            accountService.createAccountService(account);
+            accountServiceImpl.createAccountService(account);
         } catch (ErrorResponseException e) {
             throw new RuntimeException(e);
         }
@@ -40,7 +40,7 @@ public class AccountController implements AccountsApi {
     @Override
     public ResponseEntity<Void> updateAccount(Account account) {
         try {
-            accountService.updateAccountServide(account);
+            accountServiceImpl.updateAccountServide(account);
         } catch (ErrorResponseException e) {
             throw new RuntimeException(e);
         }
@@ -50,7 +50,7 @@ public class AccountController implements AccountsApi {
     @Override
     public ResponseEntity<Void> deleteAccountById(String accountId) {
         try {
-            accountService.deleteAccountByIdService(accountId);
+            accountServiceImpl.deleteAccountByIdService(accountId);
         } catch (ErrorResponseException e) {
             throw new RuntimeException(e);
         }
@@ -61,7 +61,7 @@ public class AccountController implements AccountsApi {
     public ResponseEntity<Account> getAccountById(String accountId) {
         Account accountById = null;
         try {
-            accountById = accountService.getAccountByIdService(accountId);
+            accountById = accountServiceImpl.getAccountByIdService(accountId);
         } catch (ErrorResponseException e) {
             throw new RuntimeException(e);
         }
@@ -72,7 +72,7 @@ public class AccountController implements AccountsApi {
     public ResponseEntity<List<Account>> getAccountsByCustomerId(String customerId) {
         List<Account>listAccountByCustomer = null;
         try {
-            listAccountByCustomer = accountService.getAccountsByCustomerIdService(customerId);
+            listAccountByCustomer = accountServiceImpl.getAccountsByCustomerIdService(customerId);
         } catch (ErrorResponseException e) {
             throw new RuntimeException(e);
         }

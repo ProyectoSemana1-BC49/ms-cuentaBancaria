@@ -1,6 +1,6 @@
 package com.nttdatabc.mscuentabancaria.controller;
 
-import com.nttdatabc.mscuentabancaria.service.MovementService;
+import com.nttdatabc.mscuentabancaria.service.MovementServiceImpl;
 import com.nttdatabc.mscuentabancaria.utils.exceptions.errors.ErrorResponseException;
 import com.nttdatabc.mscuentabancaria.api.MovementApi;
 import com.nttdatabc.mscuentabancaria.model.Movement;
@@ -18,12 +18,12 @@ import static com.nttdatabc.mscuentabancaria.utils.Constantes.PREFIX_PATH;
 @RequestMapping(PREFIX_PATH)
 public class MovementController implements MovementApi {
     @Autowired
-    private MovementService movementService;
+    private MovementServiceImpl movementServiceImpl;
 
     @Override
     public ResponseEntity<Void> createMovementDeposit(Movement movement) {
         try {
-            movementService.createMovementDepositService(movement);
+            movementServiceImpl.createMovementDepositService(movement);
         } catch (ErrorResponseException e) {
             throw new RuntimeException(e);
         }
@@ -33,7 +33,7 @@ public class MovementController implements MovementApi {
     @Override
     public ResponseEntity<Void> createWithDraw(Movement movement) {
         try {
-            movementService.createWithDrawService(movement);
+            movementServiceImpl.createWithDrawService(movement);
         } catch (ErrorResponseException e) {
             throw new RuntimeException(e);
         }
@@ -44,7 +44,7 @@ public class MovementController implements MovementApi {
     public ResponseEntity<List<Movement>> getMovementsByAccountId(String accountId) {
         List<Movement> listFound = null;
         try {
-            listFound = movementService.getMovementsByAccountIdService(accountId);
+            listFound = movementServiceImpl.getMovementsByAccountIdService(accountId);
         } catch (ErrorResponseException e) {
             throw new RuntimeException(e);
         }

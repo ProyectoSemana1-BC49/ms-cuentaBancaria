@@ -26,4 +26,5 @@ public class Constantes {
     public static final String EX_ERROR_LIMIT_MAX_MOVEMENTS = "LA CUENTA DE AHORRO TIENE UN MÁXIMO DE 5 MOVIMIENTOS MENSUALES, ESPERE AL OTRO MES PARA REALIZAR MOVIMIENTO";
     public static final String EX_ERROR_HAS_MOVEMENT_DAY = "Ya realizó el movimiento, recuerde que solo es 1 por día específico.";
     public static final String EX_ERROR_NOT_DAY_MOVEMENT = "Hoy no es el día especificado para hacer un movimiento en plazo fijo, recurde que son los días " + DAY_MOVEMENT_SELECTED + " de cada mes.";
+    public static final String URL_CUSTOMER_ID = "http://localhost:8080/api/v1/customer/";
 }
